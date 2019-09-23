@@ -1,0 +1,94 @@
+<div class="row">
+<app-loading *ngIf="overlay"></app-loading>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-success card-header-icon">
+              <div class="card-icon"> <i class="material-icons">insert_drive_file</i> </div>
+              <h4 class="card-title">Bank Search</h4>
+
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="input-group mb-15">
+                    <label class="col-form-label">Select City:</label>
+              <select class="form-control" 
+                      id= "selectedCity"
+                      (ngModelChange)="onCityChange($event)"
+                      [(ngModel)]="selectedCity">
+                <option *ngFor="let item of ['MUMBAI', 'BANGALORE', 'JAIPUR', 'SURAT','CHENNAI','DELHI']">{{item}}</option>
+              </select>
+                    <label class="col-form-label">Filter By:</label>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="Ifsc"  [(ngModel)]="ifsc" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="Bank id" [(ngModel)]="bankId" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="Branch" [(ngModel)]="branch" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="Address" [(ngModel)]="address" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="City"[(ngModel)]="city" (input)="filter($event)"  required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="District" [(ngModel)]="district" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="State" [(ngModel)]="state" (input)="filter($event)" required/>
+                    <input type="text" class="form-control form-control-lg inputText" placeholder="Bank Name" [(ngModel)]="bankName" (input)="filter($event)" required/>
+                   </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr class="table-head">
+                          <th>IFSC</th>
+                          <th>BANK ID</th>
+                          <th>BRANCH</th>
+                          <th>ADDRESS</th>
+                          <th>CITY</th>
+                          <th>DISTRICT</th>
+                          <th>STATE</th>
+                          <th>BANK NAME</th>
+                          <th>Favourites</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let data of displayBankDetails| paginate: { itemsPerPage: entries, currentPage: currentPage}; let i= index">
+                          <td>{{data.ifsc}}</td>
+                          <td>{{data.bank_id}}</td>
+                          <td>{{data.branch}}</td>
+                          <td>{{data.address}}</td>
+                          <td>{{data.city}}</td>
+                          <td>{{data.district}}</td>
+                          <td>{{data.state}}</td>
+                          <td>{{data.bank_name}}</td>
+                          <td> <input type="checkbox" class="filled-in col-12" name="{{i}}" id="{{i}}"  (change)="onClickCheckBox($event,i,data.ifsc)" [checked]="checkIfFav(data.ifsc)"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="btn-group" role="group" aria-label="First group">
+                      <button type="button" class="btn btn-secondary" (click)="nextpage('-')" *ngIf="nextminus()"> 
+                        <i class="fa fa-angle-double-left">
+                        </i> 
+                      </button>
+
+                      <button type="button" class="btn btn-secondary"> 
+                        <i class="fa">{{currentPage}}
+                        </i> 
+                      </button>
+                      
+                      <button type="button" class="btn btn-secondary" (click)="nextpage('+')" *ngIf="nextplus()"> 
+                        <i class="fa fa-angle-double-right"></i> 
+                      </button>
+                      
+                      <select [(ngModel)]="entries">
+                        <option *ngFor="let c of [2,5,10,20,50]" value="{{c}}">
+                          {{c}}
+                        </option>
+                      </select>
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
